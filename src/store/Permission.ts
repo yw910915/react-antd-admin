@@ -1,15 +1,26 @@
-import {makeAutoObservable, observable} from "mobx";
+import {action, makeAutoObservable, observable} from "mobx";
+import {authRoutes, IRoute} from "../router";
+import {getAdminPermissionList} from "../api/permission";
 
-interface IPermission {
-    permissionList: IPermission[]
-}
 
 export default class Permission {
     @observable
-    permission: IPermission[]
+    permission: IRoute[]
 
-    constructor(permission: IPermission[] = []) {
-        this.permission = permission;
+    constructor() {
+        this.permission = authRoutes;
         makeAutoObservable(this)
+    }
+
+    @action
+    initPermission = () => {
+        getAdminPermissionList().then(response => {
+            const {data} = response.data
+            this.permission = data
+        })
+    }
+    @action
+    getPermissionList = () => {
+        return this.permission
     }
 }

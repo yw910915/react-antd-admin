@@ -6,12 +6,15 @@ import AdminHeader from "./AdminHeader";
 import '../static/css/footer.css'
 import LeftBar from "./LeftBar";
 import {authRoutes, IRoute} from "../router";
+import {inject} from "mobx-react";
+import Permission from "../store/Permission";
 
 const {Sider, Content, Footer} = Layout;
 
 interface IProps {
     children?: ReactNode
     permissionList?: IRoute[]
+    permission?: Permission
 }
 
 interface IState {
@@ -19,6 +22,7 @@ interface IState {
     auth: boolean
 }
 
+@inject('permission')
 export default class AdminLayout extends Component<IProps, IState> {
     constructor(props: IProps, context: any) {
         super(props, context);
@@ -29,7 +33,7 @@ export default class AdminLayout extends Component<IProps, IState> {
     }
 
     static getDerivedStateFromProps(nextProps: Readonly<IProps>, nextState: Readonly<IState>) {
-
+        nextProps.permission?.getPermissionList()
         return {auth: true}
     }
 
