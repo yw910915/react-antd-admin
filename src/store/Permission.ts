@@ -1,23 +1,37 @@
-import {action, makeAutoObservable, observable} from "mobx";
-import {authRoutes, IRoute} from "../router";
+import {action, makeAutoObservable, observable, runInAction} from "mobx";
 import {getAdminPermissionList} from "../api/permission";
-
+import {IRoute} from "../router";
 
 export default class Permission {
     @observable
-    permission: IRoute[]
+    permission: IRoute[] = []
+    @observable state: string = 'loading';
 
     constructor() {
-        this.permission = authRoutes;
         makeAutoObservable(this)
     }
 
     @action
-    initPermission = () => {
-        getAdminPermissionList().then(response => {
-            const {data} = response.data
-            this.permission = data
-        })
+    initPermission = async () => {
+        try {
+            const data = await getAdminPermissionList().then(response => {
+                const {data} = response.data
+                return data
+            })
+            runInAction(() => {
+                this.permission = observable.array(data);
+                this.state = 'success'
+            })
+        } catch (e) {
+            runInAction(() => {
+                this.state = "error"
+            })
+
+        }
+    }
+    @action
+    changeState = (state: string) => {
+        this.state = state
     }
     @action
     getPermissionList = () => {

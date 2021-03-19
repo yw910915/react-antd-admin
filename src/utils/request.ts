@@ -12,8 +12,7 @@ const service = axios.create({
 service.interceptors.request.use(
     config => {
         NProgress.start();
-        let token = get('token')
-        config.headers['Authorization'] = token;
+        config.headers['Authorization'] = get('token');
         return config
     },
     error => {
@@ -32,9 +31,8 @@ service.interceptors.response.use(
                 message.warning('你的登录状态已经丢失，请退出后重新登录！')
                 return Promise.reject('请登录')
             } else if (code === 4000) {
-                message.warning('认证失败，请退出后重新登录！')
                 clear()
-                window.location.href = '/login'
+                // window.location.href = '/login'
                 return Promise.reject('认证失败')
             }
             return response;

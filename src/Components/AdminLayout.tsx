@@ -1,17 +1,19 @@
 import React, {Component, ReactNode} from "react";
 import {MenuFoldOutlined, MenuUnfoldOutlined,} from '@ant-design/icons';
 
-import {Layout} from 'antd';
+import {Layout, message} from 'antd';
 import AdminHeader from "./AdminHeader";
 import '../static/css/footer.css'
 import LeftBar from "./LeftBar";
 import {authRoutes, IRoute} from "../router";
-import {inject} from "mobx-react";
+import {inject, observer} from "mobx-react";
 import Permission from "../store/Permission";
+import {withRouter} from "react-router-dom";
+import {RouteComponentProps} from "react-router";
 
 const {Sider, Content, Footer} = Layout;
 
-interface IProps {
+interface IProps extends RouteComponentProps {
     children?: ReactNode
     permissionList?: IRoute[]
     permission?: Permission
@@ -20,10 +22,12 @@ interface IProps {
 interface IState {
     collapsed: boolean
     auth: boolean
+    permissionList?: string[]
 }
 
 @inject('permission')
-export default class AdminLayout extends Component<IProps, IState> {
+@observer
+class AdminLayout extends Component<IProps, IState> {
     constructor(props: IProps, context: any) {
         super(props, context);
         this.state = {
@@ -33,8 +37,21 @@ export default class AdminLayout extends Component<IProps, IState> {
     }
 
     static getDerivedStateFromProps(nextProps: Readonly<IProps>, nextState: Readonly<IState>) {
-        nextProps.permission?.getPermissionList()
-        return {auth: true}
+        if (nextProps.permission?.state === 'error') {
+            message.error('error')
+            nextProps.history.replace('/login')
+            return null
+        }
+        if (nextProps.permission?.state === 'success') {
+            let permissionList = nextProps.permission?.permission.map(p => p.path);
+            if (permissionList.length === 0) {
+                nextProps.history.replace('/login')
+                return null
+            }
+            return {permissionList: permissionList, auth: true};
+        } else {
+            return null;
+        }
     }
 
     toggle = () => {
@@ -43,7 +60,15 @@ export default class AdminLayout extends Component<IProps, IState> {
         });
     };
 
+
     render() {
+        if (this.props.permission?.state === 'loading') {
+            return (
+                <>
+                    loading
+                </>
+            )
+        }
         return (
             <>
                 <Layout>
@@ -79,6 +104,8 @@ export default class AdminLayout extends Component<IProps, IState> {
                 </Layout>
             </>
 
-        )
+        );
     }
 }
+
+export default withRouter(AdminLayout)

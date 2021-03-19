@@ -5,6 +5,7 @@ import '../../static/css/login/login.css'
 import {inject} from "mobx-react";
 import Admin from "../../store/Admin";
 import {login} from "../../api/login";
+import Permission from "../../store/Permission";
 import {set} from "../../utils/storage";
 
 const layout = {
@@ -25,9 +26,11 @@ interface IState {
 
 interface IProps extends RouteComponentProps {
     admin?: Admin
+    permission?: Permission
 }
 
 @inject('admin')
+@inject('permission')
 class Index extends Component<IProps, IState> {
     constructor(props: IProps, context: any) {
         super(props, context);
@@ -57,7 +60,10 @@ class Index extends Component<IProps, IState> {
                 const {token} = response.data.data;
                 set('token', token)
                 this.props.admin?.login(values)
-                this.props.history.replace('/admin/index')
+                this.props.permission?.initPermission();
+                window.location.href = '/'
+                // 因为localstorage存储之后立马取值 会有延迟 ，用  window.location.href 不会
+                // this.props.history.push('/')
             } else {
                 message.error(msg)
                 return Promise.reject(msg)

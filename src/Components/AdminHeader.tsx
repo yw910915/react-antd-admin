@@ -5,21 +5,24 @@ import {Avatar, Dropdown, Layout, Menu} from "antd";
 import {DownOutlined} from '@ant-design/icons';
 import {topRoute} from "../router";
 import {NavLink, RouteComponentProps, withRouter} from "react-router-dom";
+import Permission from "../store/Permission";
 
 const {Header} = Layout;
 
 interface IProps extends RouteComponentProps {
     admin?: Admin
+    permission?: Permission
 }
 
 
-@inject('admin')
+@inject('admin', 'permission')
 @observer
 class AdminHeader extends Component<IProps, any> {
 
     logout = () => {
         this.props.admin?.logout()
-        this.props.history.push('/login')
+        this.props.permission?.changeState('loading')
+        this.props.history.replace('/login')
     }
 
     render() {
