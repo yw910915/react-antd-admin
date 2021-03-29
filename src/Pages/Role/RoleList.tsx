@@ -83,6 +83,10 @@ export default class RoleList extends Component<any, IState> {
         }))
     }
 
+    onChange = (page: number) => {
+        this.getRoleList(page)
+    }
+
     render() {
         return (
             <>
@@ -93,6 +97,16 @@ export default class RoleList extends Component<any, IState> {
                 <Table
                     loading={this.state.loading}
                     dataSource={this.state.roleList}
+
+                    pagination={{
+                        position: ['bottomCenter'],
+                        total: this.state.totalCount,
+                        hideOnSinglePage: true,
+                        defaultCurrent: this.state.page,
+                        defaultPageSize: this.state.pageSize,
+                        showSizeChanger: false,
+                        onChange: this.onChange
+                    }}
                     rowKey={'id'}
                 >
                     <Table.Column
