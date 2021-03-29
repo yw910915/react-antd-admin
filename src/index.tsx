@@ -11,13 +11,11 @@ import 'moment/locale/zh-cn';
 
 moment.locale('cn');
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider {...store}>
-            <ConfigProvider locale={zhCN}>
-                <App/>
-            </ConfigProvider>
-        </Provider>
-    </React.StrictMode>,
+    <Provider {...store}>
+        <ConfigProvider locale={zhCN}>
+            <App/>
+        </ConfigProvider>
+    </Provider>,
     document.getElementById('root')
 );
 

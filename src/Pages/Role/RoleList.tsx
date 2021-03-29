@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {getRoleList} from "../../api/role";
 import {Button, Space, Table} from "antd";
 import DeleteRole from "./DeleteRole";
+import EditRole from "./EditRole";
 
 export interface IRole {
     id: number
@@ -15,6 +16,7 @@ interface IState {
     totalCount: number
     visible: boolean
     loading: boolean
+    role?: IRole
 }
 
 export default class RoleList extends Component<any, IState> {
@@ -56,10 +58,38 @@ export default class RoleList extends Component<any, IState> {
             roleList: this.state.roleList.filter(r => r.id !== role.id)
         })
     }
+    callback = (visible: boolean) => {
+        this.setState(() => ({
+            visible: visible
+        }))
+    }
+    show = (role?: IRole, visible: boolean = true) => {
+        this.setState(() => ({
+            visible: visible,
+            role: role
+        }))
+    }
+    saveRole = (role?: IRole) => {
+        this.setState((state) => ({
+            visible: false,
+            roleList: state.roleList.map(r => {
+                if (r.id === role?.id) {
+                    return role
+                } else {
+                    return r
+                }
+            }),
+            role: role
+        }))
+    }
 
     render() {
         return (
             <>
+                <EditRole visible={this.state.visible}
+                          role={this.state.role}
+                          callback={this.callback}
+                          saveRole={this.saveRole}/>
                 <Table
                     loading={this.state.loading}
                     dataSource={this.state.roleList}
@@ -77,7 +107,9 @@ export default class RoleList extends Component<any, IState> {
                         title={'管理'}
                         render={(role: IRole) => (
                             <Space>
-                                <Button type='primary'>编辑</Button>
+                                <Button type='primary' onClick={() => {
+                                    this.show(role, true)
+                                }}>编辑</Button>
                                 <DeleteRole role={role} callback={this.deleteRole}/>
                             </Space>
                         )}

@@ -46,7 +46,6 @@ export const leftRoute: IRoute[] = [
         id: '3-0',
         path: '/admin/role',
         title: '角色管理',
-        component: <Index/>,
         routes: [
             {
                 id: '3-1',
