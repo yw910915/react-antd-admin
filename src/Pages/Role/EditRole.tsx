@@ -124,7 +124,8 @@ export default class EditRole extends Component<IProps, IState> {
                         ref={this.formRef}
                         onFinish={this.saveRole}
                         initialValues={{
-                            ...this.props.role
+                            ...this.props.role,
+                            permissionList: []
                         }}
                     >
                         <Form.Item
@@ -135,28 +136,28 @@ export default class EditRole extends Component<IProps, IState> {
                             <Input/>
                         </Form.Item>
 
+                        {
+                            this.state.nodeList.length > 0 ?
+                                <Form.Item
+                                    name='permissionList'
+                                    label='选择权限'
+                                    rules={[
+                                        {
+                                            type: "array",
+                                            min: 1,
+                                            required: true,
+                                            validator: (rule, value) => {
+                                                if (value.length <= 0) {
+                                                    return Promise.reject('至少要选择一个权限！')
+                                                }
+                                                return Promise.resolve()
+                                            }
+                                        },
 
-                        <Form.Item
-                            name='permissionList'
-                            label='选择权限'
-                            rules={[
-                                {
-                                    type: "array",
-                                    min: 1,
-                                    required: true,
-                                    validator: (rule, value) => {
-                                        if (value.length <= 0) {
-                                            return Promise.reject('至少要选择一个权限！')
-                                        }
-                                        return Promise.resolve()
-                                    }
-                                },
+                                    ]}
+                                    shouldUpdate={(prevValues, curValues) => prevValues.additional !== curValues.additional}
+                                >
 
-                            ]}
-                            shouldUpdate={(prevValues, curValues) => prevValues.additional !== curValues.additional}
-                        >
-                            {
-                                this.state.nodeList.length > 0 ?
                                     <Tree
                                         defaultExpandAll
                                         checkStrictly
@@ -166,12 +167,10 @@ export default class EditRole extends Component<IProps, IState> {
                                         defaultCheckedKeys={this.state.defaultCheckedKeys}
                                         onCheck={this.onCheck}
                                     />
-                                    :
-                                    null
-                            }
-                        </Form.Item>
-
-
+                                </Form.Item>
+                                :
+                                null
+                        }
                         <Form.Item {...tailLayout}>
                             <Space>
                                 <Button type="primary" htmlType="submit">
