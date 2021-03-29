@@ -5,6 +5,7 @@ const Index = lazy(() => import('../Pages/Dashboard/Index'))
 const UserList = lazy(() => import('../Pages/User/UserList'))
 const Page403 = lazy(() => import('../Pages/Page403'))
 const Page404 = lazy(() => import('../Pages/Page404'))
+const RoleList = lazy(() => import('../Pages/Role/RoleList'))
 
 export interface IRoute {
     id: string,
@@ -23,7 +24,7 @@ export const leftRoute: IRoute[] = [
     {
         id: '1-0',
         path: '/admin/index',
-        title: '登录',
+        title: '仪表盘',
         isMenu: 1,
         component: <Index/>
     },
@@ -38,6 +39,20 @@ export const leftRoute: IRoute[] = [
                 path: '/admin/user/list',
                 title: '用户列表',
                 component: <UserList/>
+            }
+        ]
+    },
+    {
+        id: '3-0',
+        path: '/admin/role',
+        title: '角色管理',
+        component: <Index/>,
+        routes: [
+            {
+                id: '3-1',
+                path: '/admin/role/list',
+                title: '角色列表',
+                component: <RoleList/>
             }
         ]
     },
