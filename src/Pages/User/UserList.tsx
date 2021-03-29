@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {getUserList} from "../../api/user";
 import {Button, Space, Table} from "antd";
-import Permission from '../../Components/Permission'
+import Auth from '../../Components/Auth'
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
 
@@ -118,12 +118,12 @@ class UserList extends Component<any, IState> {
                         render={(user: IUser) => (
                             <Space>
 
-                                <Permission
+                                <Auth
                                     path={'editUser'}
                                     children={<Button type='primary' onClick={() => {
                                         this.show(true, user)
                                     }}>编辑</Button>}/>
-                                <Permission
+                                <Auth
                                     path={'deleteUser'}
                                     children={<DeleteUser userId={user.id} callback={this.deleteUser}/>}/>
                             </Space>

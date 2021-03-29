@@ -12,7 +12,7 @@ interface IProps {
 // 如果没有权限就隐藏
 @inject('permission')
 @observer
-class Permission extends Component<IProps, any> {
+class Auth extends Component<IProps, any> {
     checkPermission = (permission: string): boolean => {
         if (this.props.permission) {
             return this.props.permission?.getPermissionList().filter((p) => p.path === permission).length > 0;
@@ -34,4 +34,4 @@ class Permission extends Component<IProps, any> {
     }
 }
 
-export default Permission
+export default Auth

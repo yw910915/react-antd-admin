@@ -3,6 +3,7 @@ import {getRoleList} from "../../api/role";
 import {Button, Space, Table} from "antd";
 import DeleteRole from "./DeleteRole";
 import EditRole from "./EditRole";
+import Auth from "../../Components/Auth";
 
 export interface IRole {
     id: number
@@ -121,10 +122,14 @@ export default class RoleList extends Component<any, IState> {
                         title={'管理'}
                         render={(role: IRole) => (
                             <Space>
-                                <Button type='primary' onClick={() => {
-                                    this.show(role, true)
-                                }}>编辑</Button>
-                                <DeleteRole role={role} callback={this.deleteRole}/>
+                                <Auth path='editRole'>
+                                    <Button type='primary' onClick={() => {
+                                        this.show(role, true)
+                                    }}>编辑</Button>
+                                </Auth>
+                                <Auth path='deleteRole'>
+                                    <DeleteRole role={role} callback={this.deleteRole}/>
+                                </Auth>
                             </Space>
                         )}
                     />
