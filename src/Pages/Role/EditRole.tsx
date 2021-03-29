@@ -86,7 +86,11 @@ export default class EditRole extends Component<IProps, IState> {
     }
     loadPermission = () => {
         getRoleDetail(this.props.role?.id as number).then(response => {
-            const {permissionList, permissionAll} = response.data.data
+            const {code} = response.data
+            if (code !== 0) {
+                return
+            }
+            const {permissionList, permissionAll} = response.data.data;
             let permissions = permissionList.map((permission: IPermission) => {
                 return permission.id
             })
