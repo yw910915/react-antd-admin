@@ -19,3 +19,13 @@ export const getRoleDetail = (roleId: number) => {
         url: '/admin/role/detail/' + roleId
     })
 }
+export const saveRole = (roleId: number, roleName: string, permissionList: number[]) => {
+    return request({
+        url: '/admin/role/update/' + roleId,
+        method: 'put',
+        data: {
+            roleName: roleName,
+            permissionList: permissionList
+        }
+    })
+}

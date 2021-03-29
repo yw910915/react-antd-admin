@@ -1,12 +1,17 @@
 import React, {Component, RefObject} from "react";
-import {Button, Form, Input, Modal, Space, Tree} from "antd";
-import {IRole} from "./RoleList";
+import {Button, Form, Input, message, Modal, Space, Tree} from "antd";
 import {FormInstance} from "antd/lib/form";
-import {getRoleDetail} from "../../api/role";
+import {getRoleDetail, saveRole} from "../../api/role";
 
 const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
 };
+
+interface IRole {
+    id: number
+    roleName: string
+    permissionList?: number[]
+}
 
 interface IProps {
     visible: boolean
@@ -57,8 +62,16 @@ export default class EditRole extends Component<IProps, IState> {
 
     }
     saveRole = (role: IRole) => {
-        console.log(role)
-        this.props.saveRole({id: this.props.role?.id as number, roleName: role.roleName})
+        role.id = this.props.role?.id as number
+        saveRole(role.id, role.roleName, role.permissionList as []).then(response => {
+            const {code, msg} = response.data
+            if (code === 0) {
+                this.props.saveRole({id: role.id, roleName: role.roleName});
+                message.success(msg)
+            } else {
+                message.warn(msg)
+            }
+        })
     }
     generatePermissionList = (permissionList: IPermission[], parentId: number = 0): IPermission[] => {
         let pl: IPermission[] = []
