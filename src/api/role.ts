@@ -13,3 +13,9 @@ export const deleteRole = (roleId: number) => {
         method: 'delete'
     })
 }
+
+export const getRoleDetail = (roleId: number) => {
+    return request({
+        url: '/admin/role/detail/' + roleId
+    })
+}
