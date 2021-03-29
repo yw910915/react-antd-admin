@@ -113,7 +113,8 @@ export default class EditRole extends Component<IProps, IState> {
      */
     componentDidUpdate = (prevProps: Readonly<IProps>, prevState: Readonly<IState>, snapshot?: any) => {
         if (!prevProps.visible) {
-            if (this.props.role) {
+            // 删除一个角色，会造成在删除之后继续查询一次，加个判断，防止轻轻详情
+            if (this.props.role && prevState.nodeList.length === 0) {
                 this.loadPermission();
             }
         }
