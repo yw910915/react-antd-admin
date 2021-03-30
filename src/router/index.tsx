@@ -64,7 +64,7 @@ export const leftRoute: IRoute[] = [
             {
                 id: '4-1',
                 path: '/admin/admin/list',
-                title: '角色列表',
+                title: '管理员列表',
                 component: <AdminList/>
             }
         ]
