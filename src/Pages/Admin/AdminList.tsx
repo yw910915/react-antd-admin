@@ -6,6 +6,7 @@ import DeleteAdmin from "./DeleteAdmin";
 
 export interface IAdmin {
     id: number
+    roleId: number
     name: string
 }
 

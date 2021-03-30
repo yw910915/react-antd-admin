@@ -29,3 +29,9 @@ export const saveRole = (roleId: number, roleName: string, permissionList: numbe
         }
     })
 }
+export const getAllRole = () => {
+
+    return request({
+        url: '/admin/role/all'
+    })
+}
