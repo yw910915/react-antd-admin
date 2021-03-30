@@ -1,4 +1,10 @@
 import React, {lazy, ReactNode} from "react"
+import {
+    DashboardOutlined,
+    UserOutlined,
+    TeamOutlined,
+    ApartmentOutlined,
+} from '@ant-design/icons';
 
 const Login = lazy(() => import('../Pages/Login'))
 const Index = lazy(() => import('../Pages/Dashboard/Index'))
@@ -27,18 +33,20 @@ export const leftRoute: IRoute[] = [
         path: '/admin/index',
         title: '仪表盘',
         isMenu: 1,
+        icon: <DashboardOutlined/>,
         component: <Index/>
     },
     {
         id: '2-0',
         path: '/admin/user',
         title: '用户管理',
-        component: <Index/>,
+        icon: <UserOutlined/>,
         routes: [
             {
                 id: '2-1',
                 path: '/admin/user/list',
                 title: '用户列表',
+                icon: <UserOutlined/>,
                 component: <UserList/>
             }
         ]
@@ -47,11 +55,13 @@ export const leftRoute: IRoute[] = [
         id: '3-0',
         path: '/admin/role',
         title: '角色管理',
+        icon: <TeamOutlined/>,
         routes: [
             {
                 id: '3-1',
                 path: '/admin/role/list',
                 title: '角色列表',
+                icon: <TeamOutlined/>,
                 component: <RoleList/>
             }
         ]
@@ -60,11 +70,13 @@ export const leftRoute: IRoute[] = [
         id: '4-0',
         path: '/admin/admin',
         title: '管理员管理',
+        icon: <ApartmentOutlined/>,
         routes: [
             {
                 id: '4-1',
                 path: '/admin/admin/list',
                 title: '管理员列表',
+                icon: <ApartmentOutlined/>,
                 component: <AdminList/>
             }
         ]
