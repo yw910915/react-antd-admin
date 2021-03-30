@@ -3,6 +3,7 @@ import {Button, Space, Table} from "antd";
 import {getAdminList} from "../../api/admin";
 import EditAdmin from "./EditAdmin";
 import DeleteAdmin from "./DeleteAdmin";
+import Auth from "../../Components/Auth";
 
 export interface IAdmin {
     id: number
@@ -119,11 +120,13 @@ export default class AdminList extends Component<any, IState> {
                         title={'管理'}
                         render={(admin: IAdmin) => (
                             <Space>
-                                <Button type='primary' onClick={() => {
-                                    this.show(admin)
-                                }}>
-                                    编辑管理员
-                                </Button>
+                                <Auth path={'editAdmin'}>
+                                    <Button type='primary' onClick={() => {
+                                        this.show(admin)
+                                    }}>
+                                        编辑管理员
+                                    </Button>
+                                </Auth>
                                 <DeleteAdmin admin={admin} callback={this.deleteAdmin}/>
                             </Space>
                         )}/>

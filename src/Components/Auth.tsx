@@ -15,7 +15,7 @@ interface IProps {
 class Auth extends Component<IProps, any> {
     checkPermission = (permission: string): boolean => {
         if (this.props.permission) {
-            return this.props.permission?.getPermissionList().filter((p) => p.path === permission).length > 0;
+            return this.props.permission?.getPermissionList().filter((p) => p.path === this.props.path).length > 0;
         }
         return false
     }
