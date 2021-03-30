@@ -31,7 +31,6 @@ export const leftRoute: IRoute[] = [
     {
         id: '1-0',
         path: '/admin/index',
-        redirect: '/admin/dashboard',
         title: '仪表盘',
         isMenu: 1,
         icon: <DashboardOutlined/>,
