@@ -97,11 +97,13 @@ class UserList extends Component<any, IState> {
                     onFinish={this.search}
                 >
                     <Form.Item
+                        label='关键词'
                         name='keyword'
                     >
                         <Input placeholder={'姓名/手机号/邮箱'} allowClear/>
                     </Form.Item>
                     <Form.Item
+                        label='添加日期'
                         name='date'
                     >
                         <RangePicker/>
