@@ -1,9 +1,12 @@
 import React, {Component} from "react";
 import {getUserList} from "../../api/user";
-import {Button, Space, Table} from "antd";
+import {Button, DatePicker, Form, Input, Space, Table} from "antd";
 import Auth from '../../Components/Auth'
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
+import {SearchOutlined, PlusOutlined} from '@ant-design/icons';
+
+const {RangePicker} = DatePicker;
 
 interface IUser {
     id: number
@@ -79,10 +82,37 @@ class UserList extends Component<any, IState> {
             })
         }))
     }
+    search = (keyword: any) => {
+        if (keyword.date) {
+            console.log(keyword.date[0].format('l LTS'));
+            console.log(keyword.date[1].format('l LTS'))
+        }
+    }
 
     render() {
         return (
             <>
+                <Form
+                    layout={'inline'}
+                    onFinish={this.search}
+                >
+                    <Form.Item
+                        name='keyword'
+                    >
+                        <Input placeholder={'姓名/手机号/邮箱'} allowClear/>
+                    </Form.Item>
+                    <Form.Item
+                        name='date'
+                    >
+                        <RangePicker/>
+                    </Form.Item>
+                    <Form.Item>
+                        <Space>
+                            <Button type="primary" icon={<SearchOutlined/>} htmlType="submit">搜索</Button>
+                            <Button type="primary" icon={<PlusOutlined/>}>新增</Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
                 <EditUser visible={this.state.visible} user={this.state.user} callback={this.show}/>
                 <Table
                     loading={this.state.loading}
@@ -133,6 +163,7 @@ class UserList extends Component<any, IState> {
             </>
         )
     }
+
 }
 
 export default UserList
