@@ -6,6 +6,10 @@ import {getRoleDetail, saveRole} from "../../api/role";
 const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
 };
+const layout = {
+    labelCol: {span: 4},
+    wrapperCol: {span: 16},
+};
 
 interface IRole {
     id: number
@@ -139,6 +143,7 @@ export default class EditRole extends Component<IProps, IState> {
                     footer={null}
                 >
                     <Form
+                        {...layout}
                         ref={this.formRef}
                         onFinish={this.saveRole}
                         initialValues={{

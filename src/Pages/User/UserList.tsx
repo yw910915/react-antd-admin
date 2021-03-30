@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import {getUserList} from "../../api/user";
-import {Button, DatePicker, Form, Input, Space, Table} from "antd";
+import {Button, Space, Table} from "antd";
 import Auth from '../../Components/Auth'
 import DeleteUser from "./DeleteUser";
 import EditUser from "./EditUser";
-import {SearchOutlined, PlusOutlined} from '@ant-design/icons';
+import AddUser from "./AddUser";
+import SearchUser from "./SearchUser";
 
-const {RangePicker} = DatePicker;
 
 interface IUser {
     id: number
@@ -25,6 +25,7 @@ interface IState {
     visible: boolean
     user?: IUser
     loading: boolean
+    addUserVisible: boolean
 }
 
 class UserList extends Component<any, IState> {
@@ -37,7 +38,8 @@ class UserList extends Component<any, IState> {
             totalCount: 0,
             pageSize: 0,
             visible: false,
-            loading: true
+            loading: true,
+            addUserVisible: false,
         }
     }
 
@@ -82,40 +84,23 @@ class UserList extends Component<any, IState> {
             })
         }))
     }
-    search = (keyword: any) => {
-        if (keyword.date) {
-            console.log(keyword.date[0].format('l LTS'));
-            console.log(keyword.date[1].format('l LTS'))
-        }
+    showAddUserModal = (visible: boolean = true) => {
+        this.setState({
+            addUserVisible: visible
+        })
+    }
+    closeAddUser = () => {
+        this.setState({
+            addUserVisible: false
+        })
     }
 
     render() {
         return (
             <>
-                <Form
-                    layout={'inline'}
-                    onFinish={this.search}
-                >
-                    <Form.Item
-                        label='关键词'
-                        name='keyword'
-                    >
-                        <Input placeholder={'姓名/手机号/邮箱'} allowClear/>
-                    </Form.Item>
-                    <Form.Item
-                        label='添加日期'
-                        name='date'
-                    >
-                        <RangePicker/>
-                    </Form.Item>
-                    <Form.Item>
-                        <Space>
-                            <Button type="primary" icon={<SearchOutlined/>} htmlType="submit">搜索</Button>
-                            <Button type="primary" icon={<PlusOutlined/>}>新增</Button>
-                        </Space>
-                    </Form.Item>
-                </Form>
+                <SearchUser showAddUserVisible={this.showAddUserModal}/>
                 <EditUser visible={this.state.visible} user={this.state.user} callback={this.show}/>
+                <AddUser closeAddUser={this.closeAddUser} visible={this.state.addUserVisible}/>
                 <Table
                     loading={this.state.loading}
                     pagination={{

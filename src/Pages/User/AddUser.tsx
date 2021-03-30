@@ -1,31 +1,22 @@
 import React, {Component, RefObject} from "react";
-import {Button, Form, Input, message, Modal, Space} from "antd";
+import {Button, Form, Input, Modal, Space} from "antd";
 import {FormInstance} from "antd/lib/form";
-import {updateUser} from "../../api/user";
 
 const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
-};
+}
+
 const layout = {
     labelCol: {span: 4},
     wrapperCol: {span: 16},
 };
 
-interface IUser {
-    id: number
-    name: string
-    mobile: string
-    avatar: string
-    email: string
-}
-
 interface IProps {
     visible: boolean
-    user?: IUser
-    callback: (visible: boolean, user?: IUser) => void
+    closeAddUser: () => void
 }
 
-class EditUser extends Component<IProps, any> {
+export default class AddUser extends Component<IProps, any> {
     formRef: RefObject<FormInstance>
 
     constructor(props: IProps, context: any) {
@@ -33,42 +24,28 @@ class EditUser extends Component<IProps, any> {
         this.formRef = React.createRef<FormInstance>();
     }
 
-    handleCancel = () => {
-        this.props.callback(false)
+    cancel = () => {
+        this.props.closeAddUser()
     }
-    saveUser = (user: IUser) => {
-        user = {...this.props.user, ...user}
-        updateUser(this.props.user?.id as number, user).then(response => {
-            const {code, msg} = response.data
-            if (code === 0) {
-                message.success('更新成功！')
-                this.props.callback(false, user)
-            } else {
-                message.warn(msg)
-            }
-        })
+    addUser = (form: any) => {
     }
 
     render() {
-        this.formRef.current?.setFieldsValue({...this.props.user})
+        this.formRef.current?.setFieldsValue({})
         return (
             <>
                 <Modal
-                    title="编辑用户信息"
-                    visible={this.props.visible}
-                    onCancel={this.handleCancel}
+                    title="添加用户"
                     cancelText='取消'
                     okText='确认'
+                    visible={this.props.visible}
+                    onCancel={this.cancel}
                     footer={null}
                 >
-
                     <Form
                         {...layout}
                         ref={this.formRef}
-                        onFinish={this.saveUser}
-                        initialValues={{
-                            ...this.props.user
-                        }}
+                        onFinish={this.addUser}
                     >
                         <Form.Item
                             shouldUpdate={(prevValues, curValues) => prevValues.additional !== curValues.additional}
@@ -94,10 +71,9 @@ class EditUser extends Component<IProps, any> {
                             </Space>
                         </Form.Item>
                     </Form>
+
                 </Modal>
             </>
         )
     }
 }
-
-export default EditUser
