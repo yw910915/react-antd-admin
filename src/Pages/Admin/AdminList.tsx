@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Space, Table} from "antd";
+import {Button, Space, Table} from "antd";
 import {getAdminList} from "../../api/admin";
 import EditAdmin from "./EditAdmin";
 import DeleteAdmin from "./DeleteAdmin";
@@ -16,6 +16,7 @@ interface IState {
     totalCount: number
     visible: boolean
     loading: boolean
+    admin?: IAdmin
 }
 
 export default class AdminList extends Component<any, IState> {
@@ -58,10 +59,39 @@ export default class AdminList extends Component<any, IState> {
             adminList: state.adminList.filter(a => a.id !== admin.id)
         }))
     }
+    show = (admin: IAdmin) => {
+        this.setState(() => ({
+            admin: admin,
+            visible: true
+        }))
+    }
+    cancel = () => {
+        this.setState({
+            visible: false
+        })
+    }
+    saveAdmin = (admin: IAdmin) => {
+        this.setState((state) => ({
+            adminList: state.adminList.map(a => {
+                if (a.id === admin.id) {
+                    return admin
+                }
+                return a
+            }),
+            visible: false
+        }))
+    }
 
     render() {
         return (
             <>
+                <EditAdmin
+                    saveAdmin={this.saveAdmin}
+                    visible={this.state.visible}
+                    cancel={this.cancel}
+                    admin={this.state.admin}
+                />
+
                 <Table
                     loading={this.state.loading}
                     dataSource={this.state.adminList}
@@ -88,7 +118,11 @@ export default class AdminList extends Component<any, IState> {
                         title={'管理'}
                         render={(admin: IAdmin) => (
                             <Space>
-                                <EditAdmin/>
+                                <Button type='primary' onClick={() => {
+                                    this.show(admin)
+                                }}>
+                                    编辑管理员
+                                </Button>
                                 <DeleteAdmin admin={admin} callback={this.deleteAdmin}/>
                             </Space>
                         )}/>
