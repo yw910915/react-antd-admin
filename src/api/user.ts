@@ -1,9 +1,9 @@
 import request from '../utils/request'
 
-export const getUserList = (page: number = 1) => {
+export const getUserList = (params: any = {}, page: number = 1) => {
     return request({
         url: '/admin/user/list',
-        params: {page: page}
+        params: {page: page, ...params}
     })
 }
 

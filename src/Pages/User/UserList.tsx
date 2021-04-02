@@ -16,6 +16,10 @@ interface IUser {
     email: string
 }
 
+interface ISearch {
+    [index: string]: string
+}
+
 interface IState {
     userList: IUser[]
     pageSize: number
@@ -26,6 +30,7 @@ interface IState {
     user?: IUser
     loading: boolean
     addUserVisible: boolean
+    search: ISearch
 }
 
 class UserList extends Component<any, IState> {
@@ -40,11 +45,12 @@ class UserList extends Component<any, IState> {
             visible: false,
             loading: true,
             addUserVisible: false,
+            search: {}
         }
     }
 
-    getUserList = (page: number = 1) => {
-        getUserList(page).then(response => {
+    getUserList = (params: any = {}, page: number = 1) => {
+        getUserList(params, page).then(response => {
             const {data: {currentPage, dataList, totalCount, limit}} = response.data
             this.setState({
                 page: currentPage,
@@ -56,7 +62,7 @@ class UserList extends Component<any, IState> {
         })
     }
     onChange = (page: number) => {
-        this.getUserList(page)
+        this.getUserList(this.state.search, page)
     }
 
     componentDidMount() {
@@ -68,8 +74,11 @@ class UserList extends Component<any, IState> {
             userList: state.userList.filter(user => user.id !== userId)
         }))
     }
-    editUser = (user: IUser) => {
-
+    search = (keyword: ISearch) => {
+        this.getUserList(keyword)
+        this.setState({
+            search: keyword
+        })
     }
     show = (visible: boolean, user?: IUser) => {
         this.setState((state) => ({
@@ -98,7 +107,7 @@ class UserList extends Component<any, IState> {
     render() {
         return (
             <>
-                <SearchUser showAddUserVisible={this.showAddUserModal}/>
+                <SearchUser showAddUserVisible={this.showAddUserModal} search={this.search}/>
                 <EditUser visible={this.state.visible} user={this.state.user} callback={this.show}/>
                 <AddUser closeAddUser={this.closeAddUser} visible={this.state.addUserVisible}/>
                 <Table
