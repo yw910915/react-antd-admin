@@ -3,6 +3,7 @@ import {Button, DatePicker, Form, Input, Space} from "antd";
 import {PlusOutlined, SearchOutlined} from "@ant-design/icons";
 import {FormInstance} from "antd/lib/form";
 
+
 const {RangePicker} = DatePicker;
 
 interface ISearch {
@@ -43,6 +44,12 @@ export default class SearchUser extends Component<IProps, any> {
             this.props.search({})
         }
     }
+    changeDate = (dates: any, dateStrings: [string, string]) => {
+        if (dates === null) {
+            let keyword = this.formRef.current?.getFieldValue('keyword')
+            this.props.search({keyword: keyword})
+        }
+    }
 
     render() {
         return (
@@ -62,7 +69,7 @@ export default class SearchUser extends Component<IProps, any> {
                         label='添加日期'
                         name='date'
                     >
-                        <RangePicker/>
+                        <RangePicker format={'YYYY-MM-DD'} onChange={this.changeDate}/>
                     </Form.Item>
                     <Form.Item>
                         <Space>
