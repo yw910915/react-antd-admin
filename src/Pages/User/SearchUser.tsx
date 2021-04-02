@@ -24,10 +24,14 @@ export default class SearchUser extends Component<IProps, any> {
 
     search = (keyword: any) => {
         if (keyword.date) {
-            console.log(keyword.date[0].format('l LTS'));
-            console.log(keyword.date[1].format('l LTS'))
+            this.props.search({
+                keyword: keyword.keyword,
+                startDate: keyword.date[0].format('l'),
+                endDate: keyword.date[1].format('l')
+            })
+        } else {
+            this.props.search({keyword: keyword.keyword})
         }
-        this.props.search({keyword: keyword.keyword})
     }
 
     showAddUserModal = () => {
