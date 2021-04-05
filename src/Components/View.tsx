@@ -48,15 +48,17 @@ class View extends Component {
                             </Switch>
                         </Route>
                         <Suspense fallback={<></>}>
-                            {
-                                unAuthRouters.map((route) => (
-                                    <Route path={route.path} key={route.id}>
-                                        {
-                                            route.component
-                                        }
-                                    </Route>
-                                ))
-                            }
+                            <Switch>
+                                {
+                                    unAuthRouters.map((route) => (
+                                        <Route path={route.path} key={route.id} exact={route.exact}>
+                                            {
+                                                route.component
+                                            }
+                                        </Route>
+                                    ))
+                                }
+                            </Switch>
                         </Suspense>
                     </Switch>
                 </Router>

@@ -92,6 +92,7 @@ export const unAuthRouters: IRoute[] = [
 
     {
         id: '0-0',
+        exact: true,
         path: '/login',
         title: '登录',
         isMenu: 1,
@@ -99,6 +100,7 @@ export const unAuthRouters: IRoute[] = [
     },
     {
         id: '403-0',
+        exact: true,
         path: '/403',
         title: '403',
         isMenu: 1,
@@ -106,7 +108,7 @@ export const unAuthRouters: IRoute[] = [
     },
     {
         id: '404-0',
-        path: '/*',
+        path: '*',
         title: '404',
         isMenu: 1,
         component: <Page404/>
