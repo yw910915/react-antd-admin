@@ -21,6 +21,7 @@ const layout = {
 };
 // 为什么用类写呢，因为类的变量作用域更加明确
 // 聪明人利用规则，选择合适的方式处理问题
+// 有么有人知道怎么在电脑回复弹幕的
 export default class AddRole extends Component<IProps, any> {
     formRef: RefObject<FormInstance>
 
