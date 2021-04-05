@@ -35,3 +35,10 @@ export const getAllRole = () => {
         url: '/admin/role/all'
     })
 }
+export const addRole = (data: any) => {
+    return request({
+        url: '/admin/role/add',
+        method: 'post',
+        data: data
+    })
+}

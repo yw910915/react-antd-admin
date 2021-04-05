@@ -4,6 +4,7 @@ import {Button, Space, Table} from "antd";
 import DeleteRole from "./DeleteRole";
 import EditRole from "./EditRole";
 import Auth from "../../Components/Auth";
+import AddRole from "./AddRole";
 
 export interface IRole {
     id: number
@@ -18,6 +19,7 @@ interface IState {
     visible: boolean
     loading: boolean
     role?: IRole
+    isShowAddRoleModal: boolean
 }
 
 export default class RoleList extends Component<any, IState> {
@@ -30,7 +32,8 @@ export default class RoleList extends Component<any, IState> {
             totalCount: 0,
             pageSize: 15,
             visible: false,
-            loading: true
+            loading: true,
+            isShowAddRoleModal: false
         }
     }
 
@@ -87,10 +90,22 @@ export default class RoleList extends Component<any, IState> {
     onChange = (page: number) => {
         this.getRoleList(page)
     }
+    showAddRoleModal = () => {
+        this.setState({
+            isShowAddRoleModal: true
+        })
+    }
+    cancelAddRoleModal = () => {
+        this.setState({
+            isShowAddRoleModal: false
+        })
+    }
 
     render() {
         return (
             <>
+                <Button type='primary' onClick={this.showAddRoleModal}>添加角色</Button>
+                <AddRole visible={this.state.isShowAddRoleModal} cancel={this.cancelAddRoleModal}/>
                 <EditRole visible={this.state.visible}
                           role={this.state.role}
                           callback={this.callback}
