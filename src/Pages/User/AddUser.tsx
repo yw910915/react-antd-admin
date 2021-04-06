@@ -33,6 +33,7 @@ export default class AddUser extends Component<IProps, any> {
             const {code, msg} = response.data
             if (code === 0) {
                 this.props.closeAddUser(true)
+                this.formRef.current?.resetFields()
                 message.success(msg)
             } else {
                 message.error(msg)
@@ -72,6 +73,24 @@ export default class AddUser extends Component<IProps, any> {
                             rules={[{required: true, message: '手机号不可以为空'}]}
                         >
                             <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            shouldUpdate={(prevValues, curValues) => prevValues.additional !== curValues.additional}
+                            label='密码'
+                            name='password'
+                            rules={[
+                                {
+                                    type: 'string',
+                                    validator: (rule, value) => {
+                                        if (value.length < 6) {
+                                            return Promise.reject('密码长度至少6位')
+                                        }
+                                        return Promise.resolve()
+                                    }
+                                }
+                            ]}
+                        >
+                            <Input.Password autoComplete='off'/>
                         </Form.Item>
                         <Form.Item {...tailLayout}>
                             <Space>
