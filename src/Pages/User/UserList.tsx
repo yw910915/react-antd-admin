@@ -98,10 +98,13 @@ class UserList extends Component<any, IState> {
             addUserVisible: visible
         })
     }
-    closeAddUser = () => {
+    closeAddUser = (refresh?: boolean) => {
         this.setState({
             addUserVisible: false
-        })
+        });
+        if (refresh) {
+            this.getUserList()
+        }
     }
 
     render() {

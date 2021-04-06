@@ -1,6 +1,7 @@
 import React, {Component, RefObject} from "react";
-import {Button, Form, Input, Modal, Space} from "antd";
+import {Button, Form, Input, message, Modal, Space} from "antd";
 import {FormInstance} from "antd/lib/form";
+import {addUser} from "../../api/user";
 
 const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
@@ -13,7 +14,7 @@ const layout = {
 
 interface IProps {
     visible: boolean
-    closeAddUser: () => void
+    closeAddUser: (refresh?: boolean) => void
 }
 
 export default class AddUser extends Component<IProps, any> {
@@ -27,7 +28,16 @@ export default class AddUser extends Component<IProps, any> {
     cancel = () => {
         this.props.closeAddUser()
     }
-    addUser = (form: any) => {
+    addUser = (user: any) => {
+        addUser(user).then(response => {
+            const {code, msg} = response.data
+            if (code === 0) {
+                this.props.closeAddUser(true)
+                message.success(msg)
+            } else {
+                message.error(msg)
+            }
+        })
     }
 
     render() {

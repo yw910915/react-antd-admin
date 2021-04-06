@@ -21,3 +21,10 @@ export const updateUser = (userId: number, data: any) => {
         data: data
     })
 }
+export const addUser = (user: any) => {
+    return request({
+        url: '/admin/user/add',
+        method: 'post',
+        data: user
+    })
+}
