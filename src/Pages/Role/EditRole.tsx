@@ -7,7 +7,7 @@ const tailLayout = {
     wrapperCol: {offset: 8, span: 16},
 };
 const layout = {
-    labelCol: {span: 4},
+    labelCol: {span: 6},
     wrapperCol: {span: 16},
 };
 
@@ -152,6 +152,7 @@ export default class EditRole extends Component<IProps, IState> {
                         }}
                     >
                         <Form.Item
+                            label='编辑角色信息'
                             name='roleName'
                             rules={[{required: true, message: '角色名称不可以为空'}]}
                             shouldUpdate={(prevValues, curValues) => prevValues.additional !== curValues.additional}
