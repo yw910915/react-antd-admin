@@ -14,6 +14,7 @@ interface IUser {
     mobile: string
     avatar: string
     email: string
+    createdAt: string
 }
 
 interface ISearch {
@@ -142,6 +143,9 @@ class UserList extends Component<any, IState> {
                     <Table.Column
                         title={'邮箱'}
                         dataIndex={'email'}/>
+                    <Table.Column
+                        title={'添加日期'}
+                        dataIndex={'createdAt'}/>
                     <Table.Column
                         title={'操作'}
                         render={(user: IUser) => (

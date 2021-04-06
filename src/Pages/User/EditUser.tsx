@@ -17,6 +17,7 @@ interface IUser {
     mobile: string
     avatar: string
     email: string
+    createdAt: string
 }
 
 interface IProps {
