@@ -68,7 +68,8 @@ class EditUser extends Component<IProps, any> {
                         ref={this.formRef}
                         onFinish={this.saveUser}
                         initialValues={{
-                            ...this.props.user
+                            ...this.props.user,
+                            password: ''
                         }}
                     >
                         <Form.Item
