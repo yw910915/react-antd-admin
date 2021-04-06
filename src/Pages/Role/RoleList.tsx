@@ -95,10 +95,13 @@ export default class RoleList extends Component<any, IState> {
             isShowAddRoleModal: true
         })
     }
-    cancelAddRoleModal = () => {
+    cancelAddRoleModal = (refresh?: boolean) => {
         this.setState({
             isShowAddRoleModal: false
-        })
+        });
+        if (refresh) {
+            this.getRoleList()
+        }
     }
 
     render() {
