@@ -9,7 +9,7 @@ import {authRoutes, IRoute} from "../router";
 import {inject, observer} from "mobx-react";
 import Permission from "../store/Permission";
 import {withRouter} from "react-router-dom";
-import {matchPath, RouteComponentProps} from "react-router";
+import {RouteComponentProps} from "react-router";
 
 const {Sider, Content, Footer} = Layout;
 
@@ -43,17 +43,7 @@ class AdminLayout extends Component<IProps, IState> {
             return null
         }
         if (nextProps.permission?.state === 'success') {
-            let path = nextProps.location.pathname
             let permissionList = nextProps.permission?.permission.map(p => {
-                let match = matchPath(path, {
-                    path: p.path,
-                    exact: true,
-                    strict: false
-                });
-                // 直接匹配到了
-                if (match !== null) {
-                    document.title = p.title
-                }
                 return p;
             });
             if (permissionList.length === 0) {

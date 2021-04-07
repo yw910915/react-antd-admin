@@ -63,31 +63,41 @@ class LeftBar extends Component<IProps, ILeftBarState> {
             <>
                 {
                     routerList?.map((route) => {
-                            if (route.routes) {
-                                return (
-                                    <Menu.SubMenu
-                                        key={route.id}
-                                        title={
-                                            <span>
+                        if (route.routes) {
+                            return (
+                                <Menu.SubMenu
+                                    key={route.id}
+                                    title={
+                                        <span>
                                                 {route.icon}
-                                                <span>{route.title}</span>
+                                            <span>{route.title}</span>
                                             </span>
-                                        }
-                                    >
-                                        {this.generateMenu(route.routes)}
-                                    </Menu.SubMenu>
-                                )
-                            } else {
-                                return (
-                                    <Menu.Item key={route.id} icon={route.icon}>
-                                        <NavLink to={route.path}>{route.title}</NavLink>
-                                    </Menu.Item>
-                                )
-                            }
-                        })
+                                    }
+                                >
+                                    {this.generateMenu(route.routes)}
+                                </Menu.SubMenu>
+                            )
+                        } else {
+                            return (
+                                <Menu.Item key={route.id} icon={route.icon}>
+                                    <NavLink to={route.path}>{route.title}</NavLink>
+                                </Menu.Item>
+                            )
+                        }
+                    })
                 }
             </>
         )
+    }
+
+    shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
+        for (let permission of nextProps.permissionList) {
+            let match = matchPath(nextProps.location.pathname, {path: permission.path, exact: permission.exact})
+            if (match !== null) {
+                document.title = permission.title
+            }
+        }
+        return true
     }
 
     render() {
