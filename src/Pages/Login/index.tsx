@@ -7,6 +7,7 @@ import Admin from "../../store/Admin";
 import {login} from "../../api/login";
 import Permission from "../../store/Permission";
 import {set} from "../../utils/storage";
+import {check} from "../../api/config";
 
 const layout = {
     labelCol: {span: 4},
@@ -42,6 +43,7 @@ class Index extends Component<IProps, IState> {
             name: '',
             password: ''
         }
+        this.check()
         window.addEventListener('resize', this.handleResize.bind(this)) //监听窗口大小改变
     }
 
@@ -51,6 +53,14 @@ class Index extends Component<IProps, IState> {
         this.setState({
             width: width,
             height: height
+        })
+    }
+    check = () => {
+        check().then(response => {
+            const {code} = response.data
+            if (code === 1) {
+                this.props.history.push('/config')
+            }
         })
     }
     onFinish = (values: IState) => {

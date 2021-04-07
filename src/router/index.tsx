@@ -13,6 +13,7 @@ const Page403 = lazy(() => import('../Pages/Page403'))
 const Page404 = lazy(() => import('../Pages/Page404'))
 const RoleList = lazy(() => import('../Pages/Role/RoleList'))
 const AdminList = lazy(() => import('../Pages/Admin/AdminList'))
+const Config = lazy(() => import('../Pages/Config/Index'))
 
 export interface IRoute {
     id: string,
@@ -97,6 +98,14 @@ export const unAuthRouters: IRoute[] = [
         title: '登录',
         isMenu: 1,
         component: <Login/>
+    },
+    {
+        id: '01-0',
+        exact: true,
+        path: '/config',
+        title: '配置',
+        isMenu: 1,
+        component: <Config/>
     },
     {
         id: '403-0',
