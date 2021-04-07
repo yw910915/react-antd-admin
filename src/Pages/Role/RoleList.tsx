@@ -9,6 +9,7 @@ import AddRole from "./AddRole";
 export interface IRole {
     id: number
     roleName: string
+    createdAt: string
 }
 
 interface IState {
@@ -135,6 +136,10 @@ export default class RoleList extends Component<any, IState> {
                     <Table.Column
                         title={'角色名称'}
                         dataIndex={'roleName'}
+                    />
+                    <Table.Column
+                        title={'创建时间'}
+                        dataIndex={'createdAt'}
                     />
                     <Table.Column
                         title={'管理'}

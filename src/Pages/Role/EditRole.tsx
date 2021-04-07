@@ -14,6 +14,7 @@ const layout = {
 interface IRole {
     id: number
     roleName: string
+    createdAt: string
     permissionList?: number[]
 }
 
@@ -70,7 +71,11 @@ export default class EditRole extends Component<IProps, IState> {
         saveRole(role.id, role.roleName, role.permissionList as []).then(response => {
             const {code, msg} = response.data
             if (code === 0) {
-                this.props.saveRole({id: role.id, roleName: role.roleName});
+                this.props.saveRole({
+                    id: role.id,
+                    roleName: role.roleName,
+                    createdAt: this.props.role?.createdAt as string
+                });
                 message.success(msg)
             } else {
                 message.warn(msg)
