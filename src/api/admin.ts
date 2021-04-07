@@ -1,4 +1,5 @@
 import request from '../utils/request'
+import {url} from "inspector";
 
 export const getAdminInfo = (data: any) => {
     return request({
@@ -22,5 +23,13 @@ export const updateAdmin = (adminId: number, data: any) => {
         url: '/admin/admin/update/' + adminId,
         method: 'put',
         data: data
+    })
+}
+
+export const addAdmin = (admin: any) => {
+    return request({
+        url: '/admin/admin/add',
+        method: 'post',
+        data: admin
     })
 }

@@ -4,6 +4,7 @@ import {getAdminList} from "../../api/admin";
 import EditAdmin from "./EditAdmin";
 import DeleteAdmin from "./DeleteAdmin";
 import Auth from "../../Components/Auth";
+import AddAdmin from "./AddAdmin";
 
 export interface IAdmin {
     id: number
@@ -22,6 +23,7 @@ interface IState {
     visible: boolean
     loading: boolean
     admin?: IAdmin
+    showAddAdminModal: boolean
 }
 
 export default class AdminList extends Component<any, IState> {
@@ -34,7 +36,8 @@ export default class AdminList extends Component<any, IState> {
             totalCount: 0,
             pageSize: 15,
             visible: false,
-            loading: true
+            loading: true,
+            showAddAdminModal: false
         }
     }
 
@@ -86,10 +89,33 @@ export default class AdminList extends Component<any, IState> {
             visible: false
         }))
     }
+    showAddAdminModal = () => {
+        this.setState({
+            showAddAdminModal: true
+        })
+    }
+    cancelAddAdminModal = () => {
+        this.setState({
+            showAddAdminModal: false
+        })
+    }
+    refresh = () => {
+        this.getAdminList()
+    }
 
     render() {
         return (
             <>
+                <Button type='primary' onClick={() => {
+                    this.showAddAdminModal()
+                }}>添加管理员</Button>
+                <AddAdmin
+                    visible={this.state.showAddAdminModal}
+                    cancel={() => {
+                        this.cancelAddAdminModal()
+                    }}
+                    refresh={this.refresh}
+                />
                 <EditAdmin
                     saveAdmin={this.saveAdmin}
                     visible={this.state.visible}
