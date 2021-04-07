@@ -106,7 +106,7 @@ class LeftBar extends Component<IProps, ILeftBarState> {
                 <div className="logo"/>
                 {
                     this.state.defaultKeys.length > 0 ?
-                        < Menu
+                        <Menu
                             theme="dark"
                             mode="inline"
                             defaultSelectedKeys={this.state.defaultKeys}
