@@ -89,14 +89,35 @@ class LeftBar extends Component<IProps, ILeftBarState> {
             </>
         )
     }
-
-    shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
-        for (let permission of nextProps.permissionList) {
-            let match = matchPath(nextProps.location.pathname, {path: permission.path, exact: permission.exact})
+    getTitle = (path: string, permissionList: IRoute[]) => {
+        for (let permission of permissionList) {
+            let match = matchPath(path, {path: permission.path, exact: permission.exact})
             if (match !== null) {
-                document.title = permission.title
+                if (!match.isExact && permission.routes) {
+                    this.getTitle(path, permission.routes)
+                } else {
+                    document.title = permission.title;
+                }
+                break
+            } else {
+                if (permission.routes) {
+                    this.getTitle(path, permission.routes)
+                }
             }
         }
+    }
+
+    shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
+        // for (let permission of nextProps.permissionList) {
+        //     let match = matchPath(nextProps.location.pathname, {path: permission.path, exact: permission.exact})
+        //     if (match !== null) {
+        //         console.log(match)
+        //         document.title = permission.title
+        //         break
+        //     }
+        // }
+        this.getTitle(nextProps.location.pathname, nextProps.permissionList)
+        // console.log(matchPath('/admin/role/list', {path: '/admin/role', exact: true}))
         return true
     }
 
