@@ -9,6 +9,9 @@ export interface IAdmin {
     id: number
     roleId: number
     name: string
+    email: string
+    mobile: string
+    createdAt: string
 }
 
 interface IState {
@@ -113,8 +116,20 @@ export default class AdminList extends Component<any, IState> {
                         dataIndex={'id'}
                     />
                     <Table.Column
-                        title={'name'}
+                        title={'姓名'}
                         dataIndex={'name'}
+                    />
+                    <Table.Column
+                        title={'电话'}
+                        dataIndex={'mobile'}
+                    />
+                    <Table.Column
+                        title={'邮箱'}
+                        dataIndex={'email'}
+                    />
+                    <Table.Column
+                        title={'创建日期'}
+                        dataIndex={'createdAt'}
                     />
                     <Table.Column
                         title={'管理'}
