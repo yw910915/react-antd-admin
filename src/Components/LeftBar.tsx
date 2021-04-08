@@ -7,19 +7,17 @@ import {authRoutes, IRoute, leftRoute} from '../router';
 interface ILeftBarState {
     defaultKeys: string[]
     defaultOpenKeys: string[]
-    permissionSet: Set<String>
     height: number
 }
 
 interface IProps extends RouteComponentProps {
-    permissionList: IRoute[]
+    permissionSet: Set<String>
 }
 
 class LeftBar extends Component<IProps, ILeftBarState> {
     state: ILeftBarState = {
         defaultKeys: [],
         defaultOpenKeys: [],
-        permissionSet: new Set<String>(),
         height: 0
     }
     highLightMenu = (authRoutes?: IRoute[], route?: IRoute) => {
@@ -49,12 +47,9 @@ class LeftBar extends Component<IProps, ILeftBarState> {
     }
 
     componentDidMount() {
-        let permissionSet: Set<string> = new Set<string>()
-        this.props.permissionList.forEach((p: IRoute) => permissionSet.add(p.path))
         this.highLightMenu(authRoutes)
         this.setState(() => (
             {
-                permissionSet: this.generatePermission(this.props.permissionList),
                 height: document.body.clientHeight - 62
             }
         ))
@@ -76,7 +71,7 @@ class LeftBar extends Component<IProps, ILeftBarState> {
         return (
             <>
                 {
-                    routerList?.filter(r => this.state.permissionSet.has(r.path)).map((route) => {
+                    routerList?.filter(r => this.props.permissionSet.has(r.path)).map((route) => {
                         if (route.routes) {
                             return (
                                 <Menu.SubMenu
@@ -120,11 +115,11 @@ class LeftBar extends Component<IProps, ILeftBarState> {
             }
         }
     }
-
-    shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
-        this.getTitle(nextProps.location.pathname, nextProps.permissionList)
-        return true
-    }
+    //
+    // shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
+    //     this.getTitle(nextProps.location.pathname, nextProps.permissionList)
+    //     return true
+    // }
 
     render() {
         return (

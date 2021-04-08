@@ -5,7 +5,6 @@ import {Layout, message} from 'antd';
 import AdminHeader from "./AdminHeader";
 import '../static/css/footer.css'
 import LeftBar from "./LeftBar";
-import {authRoutes, IRoute} from "../router";
 import {inject, observer} from "mobx-react";
 import Permission from "../store/Permission";
 import {withRouter} from "react-router-dom";
@@ -15,7 +14,6 @@ const {Sider, Content, Footer} = Layout;
 
 interface IProps extends RouteComponentProps {
     children?: ReactNode
-    permissionList?: IRoute[]
     permission?: Permission
 }
 
@@ -23,6 +21,7 @@ interface IState {
     collapsed: boolean
     auth: boolean
     permissionList?: string[]
+    permissionSet: Set<String>
 }
 
 @inject('permission')
@@ -32,7 +31,8 @@ class AdminLayout extends Component<IProps, IState> {
         super(props, context);
         this.state = {
             collapsed: false,
-            auth: false
+            auth: false,
+            permissionSet: new Set<String>(),
         };
     }
 
@@ -43,14 +43,15 @@ class AdminLayout extends Component<IProps, IState> {
             return null
         }
         if (nextProps.permission?.state === 'success') {
-            let permissionList = nextProps.permission?.permission.map(p => {
-                return p;
-            });
-            if (permissionList.length === 0) {
-                nextProps.history.replace('/login')
-                return null
+            let permissionSet = new Set<string>()
+            for (let permission of nextProps.permission?.permission) {
+                permissionSet.add(permission.path)
             }
-            return {permissionList: permissionList, auth: true};
+            if (permissionSet.size === 0) {
+                nextProps.history.replace('/login');
+                return null;
+            }
+            return {permissionSet: permissionSet, auth: true};
         } else {
             return null;
         }
@@ -77,7 +78,7 @@ class AdminLayout extends Component<IProps, IState> {
                     <AdminHeader/>
                     <Layout>
                         <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                            <LeftBar permissionList={authRoutes}/>
+                            <LeftBar permissionSet={this.state.permissionSet}/>
                         </Sider>
                         <Layout className="site-layout">
                             <span className={'trigger'} onClick={this.toggle}>
