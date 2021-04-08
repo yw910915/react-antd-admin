@@ -1,5 +1,4 @@
 import request from '../utils/request'
-import {url} from "inspector";
 
 export const getAdminInfo = (data: any) => {
     return request({
