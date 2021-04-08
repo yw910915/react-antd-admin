@@ -55,18 +55,6 @@ class LeftBar extends Component<IProps, ILeftBarState> {
         ))
     }
 
-    generatePermission = (permissionList: IRoute[]): Set<string> => {
-        let permissionSet: Set<string> = new Set<string>()
-        for (let permission of permissionList) {
-            permissionSet.add(permission.path);
-            if (permission.routes) {
-                let p = this.generatePermission(permission.routes)
-                permissionSet = new Set([...Array.from(permissionSet), ...Array.from(p)])
-            }
-        }
-        return permissionSet
-    }
-
     generateMenu = (routerList?: IRoute[]) => {
         return (
             <>
@@ -115,11 +103,11 @@ class LeftBar extends Component<IProps, ILeftBarState> {
             }
         }
     }
-    //
-    // shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
-    //     this.getTitle(nextProps.location.pathname, nextProps.permissionList)
-    //     return true
-    // }
+
+    shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
+        this.getTitle(nextProps.location.pathname, leftRoute)
+        return true
+    }
 
     render() {
         return (
