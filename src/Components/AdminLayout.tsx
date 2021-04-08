@@ -8,7 +8,7 @@ import LeftBar from "./LeftBar";
 import {inject, observer} from "mobx-react";
 import Permission from "../store/Permission";
 import {withRouter} from "react-router-dom";
-import {RouteComponentProps} from "react-router";
+import {matchPath, RouteComponentProps} from "react-router";
 
 const {Sider, Content, Footer} = Layout;
 
@@ -44,14 +44,23 @@ class AdminLayout extends Component<IProps, IState> {
         }
         if (nextProps.permission?.state === 'success') {
             let permissionSet = new Set<string>()
+            let auth = false
             for (let permission of nextProps.permission?.permission) {
-                permissionSet.add(permission.path)
+                let match = matchPath(nextProps.location.pathname, {path: permission.path});
+                if (match !== null && match.isExact) {
+                    auth = true
+                }
+                permissionSet.add(permission.path);
             }
             if (permissionSet.size === 0) {
                 nextProps.history.replace('/login');
                 return null;
             }
-            return {permissionSet: permissionSet, auth: true};
+            if (!auth) {
+                nextProps.history.push('/admin/index');
+                return null
+            }
+            return {permissionSet: permissionSet, auth: auth};
         } else {
             return null;
         }
