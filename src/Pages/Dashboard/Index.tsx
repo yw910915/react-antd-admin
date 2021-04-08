@@ -116,6 +116,12 @@ class Index extends Component<any, any> {
                     <Table.Column
                         title='电话'
                     />
+                    <Table.Column
+                        title='备注'
+                    />
+                    <Table.Column
+                        title='创建日期'
+                    />
                 </Table>
             </>
         )

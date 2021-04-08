@@ -52,17 +52,31 @@ class LeftBar extends Component<IProps, ILeftBarState> {
         let permissionSet: Set<string> = new Set<string>()
         this.props.permissionList.forEach((p: IRoute) => permissionSet.add(p.path))
         this.highLightMenu(authRoutes)
-        this.setState({
-            permissionSet: permissionSet,
-            height: document.body.clientHeight - 62
-        })
+        this.setState(() => (
+            {
+                permissionSet: this.generatePermission(this.props.permissionList),
+                height: document.body.clientHeight - 62
+            }
+        ))
+    }
+
+    generatePermission = (permissionList: IRoute[]): Set<string> => {
+        let permissionSet: Set<string> = new Set<string>()
+        for (let permission of permissionList) {
+            permissionSet.add(permission.path);
+            if (permission.routes) {
+                let p = this.generatePermission(permission.routes)
+                permissionSet = new Set([...Array.from(permissionSet), ...Array.from(p)])
+            }
+        }
+        return permissionSet
     }
 
     generateMenu = (routerList?: IRoute[]) => {
         return (
             <>
                 {
-                    routerList?.map((route) => {
+                    routerList?.filter(r => this.state.permissionSet.has(r.path)).map((route) => {
                         if (route.routes) {
                             return (
                                 <Menu.SubMenu
@@ -108,16 +122,7 @@ class LeftBar extends Component<IProps, ILeftBarState> {
     }
 
     shouldComponentUpdate(nextProps: Readonly<IProps>, nextState: Readonly<ILeftBarState>, nextContext: any): boolean {
-        // for (let permission of nextProps.permissionList) {
-        //     let match = matchPath(nextProps.location.pathname, {path: permission.path, exact: permission.exact})
-        //     if (match !== null) {
-        //         console.log(match)
-        //         document.title = permission.title
-        //         break
-        //     }
-        // }
         this.getTitle(nextProps.location.pathname, nextProps.permissionList)
-        // console.log(matchPath('/admin/role/list', {path: '/admin/role', exact: true}))
         return true
     }
 
