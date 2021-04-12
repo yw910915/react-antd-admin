@@ -1,5 +1,9 @@
 # React+Ts+Antd+Mobx开发的后台管理系统模板，包含权限管理系统、API接口
 
+## [github地址](https://github.com/hanyunmuyu/react-antd-admin)
+
+## [码云地址](https://gitee.com/hanyun_admin/react-antd-admin.git)
+
 ## 安装依赖
 
 ```
