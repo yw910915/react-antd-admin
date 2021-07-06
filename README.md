@@ -10,12 +10,6 @@
 yarn install
 ```
 
-## 接口docker地址
-
-```
-https://gitee.com/hanyun_admin/react-admin-docker.git
-```
-
 
 
 ## 功能说明
@@ -28,7 +22,6 @@ https://gitee.com/hanyun_admin/react-admin-docker.git
 
 ## [B站视频地址](https://www.bilibili.com/video/BV1Ba4y1H77E?share_source=copy_web)
 
-<iframe src="//player.bilibili.com/player.html?aid=670632803&bvid=BV1Ba4y1H77E&cid=269853590&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
 页面示例
 
